@@ -1,6 +1,7 @@
 package com.example.demo.student;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table
@@ -26,6 +28,9 @@ public class Student {
     private String name;
     private String email;
     private LocalDate dob;
+    
+    // Tells DB that there is no need for age to be a column, bcause we can calculated it
+    @Transient
     private Integer age;
 
     //  Constructor with no variables passed
@@ -35,23 +40,19 @@ public class Student {
     public Student (Long id, 
                     String name, 
                     String email, 
-                    LocalDate dob, 
-                    Integer age){
+                    LocalDate dob){
         this.id = id;
         this.name = name;
         this.email = email;
         this.dob = dob;
-        this.age = age;
     }
     // Constructor, with no ID, because it can be auto generated
     public Student (String name, 
                     String email, 
-                    LocalDate dob, 
-                    Integer age){
+                    LocalDate dob){
         this.name = name;
         this.email = email;
         this.dob = dob;
-        this.age = age;
     }
 
     // Getters:
@@ -68,22 +69,22 @@ public class Student {
         return this.dob;
     }
     public Integer getAge() {
-        return this.age;
+        return Period.between(this.dob, LocalDate.now()).getYears();
     }
     // Setters:
     public void setID(Long id) {
         this.id = id;
     }
-    public void getName(String name) {
+    public void setName(String name) {
         this.name = name;
     }
-    public void getEmail(String email) {
+    public void setEmail(String email) {
         this.email = email;
     }
-    public void getDOB(LocalDate dob) {
+    public void setDOB(LocalDate dob) {
         this.dob = dob;
     }
-    public void getAge(Integer age) {
+    public void setAge(Integer age) {
         this.age = age;
     }
 
